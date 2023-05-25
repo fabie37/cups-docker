@@ -1,3 +1,8 @@
+# Notes: 
+This is a fork of anujdatars execellent CUPs image. I was unable to properly install drivers for the SAMSUNG M2026W so I decided to make a script to automatically pull them from HP's servers and use them locally.
+
+
+
 # CUPS-docker
 
 Run a CUPS print server on a remote machine to share USB printers over WiFi. Built primarily to use with Raspberry Pis as a headless server, but there is no reason this wouldn't work on `amd64` machines. Tested and confirmed working on a Raspberry Pi 3B+ (`arm/v7`) and Raspberry Pi 4 (`arm64/v8`).
