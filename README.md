@@ -1,5 +1,5 @@
 # Notes: 
-This is a fork of anujdatars execellent CUPs image. I was unable to properly install drivers for the SAMSUNG M2026W so I decided to make a script to automatically pull them from HP's servers and use them locally.
+This is a fork of anujdatars excellent CUPs image. I was unable to properly install drivers for the SAMSUNG M2026W so I decided to make a script to automatically pull them from HP's servers and use them locally.
 
 
 
