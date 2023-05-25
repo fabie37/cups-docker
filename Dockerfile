@@ -37,7 +37,7 @@ RUN apt-get update -qq  && apt-get upgrade -qqy \
 RUN mkdir /var/downloads/ && cd /var/downloads/ \
     && wget --no-check-certificate https://ftp.hp.com/pub/softlib/software13/printers/SS/SL-C4010ND/uld_V1.00.39_01.17.tar.gz \
     && tar -vxzf uld_V1.00.39_01.17.tar.gz && cd uld \
-    && y y | rm ./noarch/license/* && \n y | ./install.sh
+    && y y | rm ./noarch/license/* && \n n | ./install.sh
 
 EXPOSE 631
 
