@@ -17,33 +17,39 @@ LABEL org.opencontainers.image.licenses=MIT
 # Install dependencies
 RUN apt-get update -qq  && apt-get upgrade -qqy \
     && apt-get install --no-install-recommends -qqy \
+    wget \
+    vim \
+    nano \
     apt-utils \
     moreutils \
     usbutils \
     cups \
+    cups-browsed\
+    samba \
+    avahi-daemon \
     cups-filters \
-    printer-driver-all \
-    printer-driver-cups-pdf \
-    printer-driver-foo2zjs \
-    foomatic-db-compressed-ppds \
-    openprinting-ppds \
-    hpijs-ppds \
-    hp-ppd \
-    hplip \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && apt-get clean 
+# && rm -rf /var/lib/apt/lists/*
+
+# Install old dependancies as latest ghostscript breaks cups
+RUN echo 'deb http://http.us.debian.org/debian oldstable main' >> /etc/apt/sources.list && apt-get update && \
+    apt-get install --no-install-recommends --allow-downgrades -qqy \
+    ghostscript=9.27~dfsg-2+deb10u5 \
+    libgs9=9.27~dfsg-2+deb10u5 \
+    libgs9-common=9.27~dfsg-2+deb10u5 
 
 # Install Samsung Linux Drivers M2020 Series
 RUN mkdir /var/downloads/ && cd /var/downloads/ \
     && wget --no-check-certificate https://ftp.hp.com/pub/softlib/software13/printers/SS/SL-C4010ND/uld_V1.00.39_01.17.tar.gz \
     && tar -vxzf uld_V1.00.39_01.17.tar.gz && cd uld \
-    && y y | rm ./noarch/license/* && \n n | ./install.sh
+    && y y | rm ./noarch/license/* && \n y | ./install.sh
 
 EXPOSE 631
+EXPOSE 5353
 
 # Baked-in config file changes
 RUN sed -i 's/Listen localhost:631/Listen 0.0.0.0:631/' /etc/cups/cupsd.conf && \
-    sed -i 's/Browsing Off/Browsing On/' /etc/cups/cupsd.conf && \
+    sed -i 's/Browsing Off/Browsing Yes/' /etc/cups/cupsd.conf && \
     sed -i 's/<Location \/>/<Location \/>\n  Allow All/' /etc/cups/cupsd.conf && \
     sed -i 's/<Location \/admin>/<Location \/admin>\n  Allow All\n  Require user @SYSTEM/' /etc/cups/cupsd.conf && \
     sed -i 's/<Location \/admin\/conf>/<Location \/admin\/conf>\n  Allow All/' /etc/cups/cupsd.conf && \
